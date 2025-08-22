@@ -1,73 +1,70 @@
-# Welcome to your Lovable project
+# 🚀 FlashPay – AI-Powered Micro-Payments Wallet for Gig Workers
 
-## Project info
+FlashPay is a **chain-agnostic, AI-powered micro-payments wallet** designed to revolutionize how gig workers and freelancers get paid.  
+Built using the **Yellow SDK** and **ERC-7824 state channels**, it enables **instant, gasless transactions** with on-chain security and transparency.  
+With integrated **AI automation**, FlashPay ensures milestone-based payments are seamless, fair, and real-time.
 
-**URL**: https://lovable.dev/projects/ae5ec8cc-2013-4fcd-84d5-661b0f3e7d10
+## ✨ Features
+- ⚡ **Instant, Gasless Micro-Payments** – Process thousands of interactions off-chain using **ERC-7824 state channels**.  
+- 🔐 **Trustless & Secure** – All states are cryptographically signed with final settlement on-chain.  
+- 🤖 **AI-Powered Payment Triggers** – Automates milestone completion checks and real-time payments.  
+- 🌐 **Chain-Agnostic** – Works across Ethereum, Polygon, BNB Chain, and more.  
+- 📊 **User & Employer Dashboards** – Real-time insights into payments, gigs, and settlements.  
 
-## How can I edit this code?
+## 🧩 Tech Stack
+- **ERC-7824** – State channels for off-chain interactions  
+- **Nitrolite SDK (Yellow SDK)** – For state channel management  
+- **Ethereum / EVM Chains** – For final on-chain settlement  
+- **Relayer Network** – To handle secure, low-latency communication  
+- **React.js + Ethers.js/Wagmi** – For frontend dApp experience  
+- **AI/ML Microservices** – To automate milestone detection and payment triggers  
 
-There are several ways of editing your application.
+## 📌 Problem Statement
+Freelancers and gig workers face **delayed payments, high fees, and lack of real-time compensation**. Traditional payment systems are slow and inefficient.  
+FlashPay solves this with **instant, trustless, and gasless micro-payments**, bridging **DeFi with real-world work**.
 
-**Use Lovable**
+## 🏗️ Architecture
+1. **Open State Channel** – A secure channel is created between employer and worker.  
+2. **Off-Chain Transactions** – Real-time micro-payments stream as milestones are completed.  
+3. **AI Automation** – AI validates task completions and triggers payment updates.  
+4. **On-Chain Settlement** – Final state pushed on-chain for auditability & security.  
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ae5ec8cc-2013-4fcd-84d5-661b0f3e7d10) and start prompting.
+## 🚀 Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
+- Node.js v18+  
+- Metamask / WalletConnect  
+- Access to Ethereum Testnet (Goerli/Polygon Mumbai recommended)  
 
-**Use your preferred IDE**
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/your-username/flashpay.git
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Navigate into the project
+cd flashpay
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Install dependencies
+npm install
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
-```
+````
 
-**Edit a file directly in GitHub**
+## 🧪 Usage
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+* Connect your wallet
+* Open a state channel with a peer (employer/worker)
+* Perform off-chain interactions (e.g., task completion, micro-tips)
+* Settle on-chain when the session ends
 
-**Use GitHub Codespaces**
+## 🎯 Hackathon Track
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+* **RWA & DeFi** – Real-World Assets & Decentralized Finance
 
-## What technologies are used for this project?
+## 📖 References
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ae5ec8cc-2013-4fcd-84d5-661b0f3e7d10) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+* [Yellow Network Docs](https://yellow.org)
+* [ERC-7824 Proposal](https://eips.ethereum.org)
+* [Ethers.js](https://docs.ethers.org/)
+* [React.js](https://react.dev/)
