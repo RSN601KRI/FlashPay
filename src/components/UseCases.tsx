@@ -1,4 +1,8 @@
 import { Camera, Code2, Truck, Paintbrush, Headphones, FileText } from "lucide-react";
+import upworkLogo from "@/assets/upwork-logo.png";
+import fiverrLogo from "@/assets/fiverr-logo.png";
+import uberLogo from "@/assets/uber-logo.png";
+import doordashLogo from "@/assets/doordash-logo.png";
 
 const useCases = [
   {
@@ -102,18 +106,52 @@ const UseCases = () => {
 
           {/* Platform logos/cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {["Upwork", "Fiverr", "Uber", "DoorDash"].map((platform, index) => (
+            {[
+              { name: "Upwork", logo: upworkLogo },
+              { name: "Fiverr", logo: fiverrLogo },
+              { name: "Uber", logo: uberLogo },
+              { name: "DoorDash", logo: doordashLogo }
+            ].map((platform, index) => (
               <div
                 key={index}
                 className="glass-card p-6 rounded-lg text-center hover-glow hover:scale-105 transition-all duration-300"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">{platform[0]}</span>
+                <div className="w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <img 
+                    src={platform.logo} 
+                    alt={platform.name}
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </div>
-                <h4 className="font-medium text-foreground">{platform}</h4>
+                <h4 className="font-medium text-foreground">{platform.name}</h4>
                 <p className="text-xs text-foreground/60 mt-1">Integration Ready</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* CTA Section - moved from Features */}
+        <div className="text-center mt-20">
+          <div className="glass-card p-8 rounded-2xl max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold mb-4 text-gradient">
+              Ready to Transform Your Payment Experience?
+            </h3>
+            <p className="text-foreground/80 mb-6">
+              Join thousands of gig workers already earning with FlashPay's AI-powered platform
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover-glow font-medium hover:opacity-90 transition-all duration-300">
+                Start Integration
+              </button>
+              <a 
+                href="https://docs.yellow.org/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-8 py-3 border border-primary/30 rounded-lg hover:border-primary transition-colors inline-block"
+              >
+                View Documentation
+              </a>
+            </div>
           </div>
         </div>
       </div>

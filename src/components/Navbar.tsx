@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Zap, Wallet } from "lucide-react";
+import { Link } from "react-router-dom";
 import flashpayLogo from "@/assets/flashpay-logo.png";
 
 const Navbar = () => {
@@ -11,14 +12,14 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <img 
               src={flashpayLogo} 
               alt="FlashPay" 
               className="h-8 w-8 animate-pulse-glow"
             />
             <span className="text-xl font-bold text-gradient">FlashPay</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -42,10 +43,12 @@ const Navbar = () => {
               <Wallet className="h-4 w-4 mr-2" />
               Connect Wallet
             </Button>
-            <Button variant="hero" className="hover-glow">
-              <Zap className="h-4 w-4 mr-2" />
-              Get Started
-            </Button>
+            <Link to="/auth">
+              <Button variant="hero" className="hover-glow">
+                <Zap className="h-4 w-4 mr-2" />
+                Register
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -78,10 +81,12 @@ const Navbar = () => {
                   <Wallet className="h-4 w-4 mr-2" />
                   Connect Wallet
                 </Button>
-                <Button variant="hero" className="hover-glow justify-start">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Get Started
-                </Button>
+                <Link to="/auth">
+                  <Button variant="hero" className="hover-glow justify-start w-full">
+                    <Zap className="h-4 w-4 mr-2" />
+                    Register
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

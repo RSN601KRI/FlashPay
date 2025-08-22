@@ -128,7 +128,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-foreground/60 text-sm mb-4 md:mb-0">
-              © 2024 FlashPay by Innovax. All rights reserved.
+              © 2025 FlashPay by Innovax. All rights reserved.
             </div>
             <div className="flex items-center space-x-6 text-sm">
               <a href="#" className="text-foreground/60 hover:text-primary transition-colors">

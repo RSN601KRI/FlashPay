@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Shield, Globe, Cpu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -42,10 +43,12 @@ const Hero = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-slide-up">
-          <Button size="lg" variant="hero" className="hover-glow px-8 py-3 text-lg">
-            Start Earning Now
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <Link to="/auth">
+            <Button size="lg" variant="hero" className="hover-glow px-8 py-3 text-lg">
+              Register Now
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
           <Button size="lg" variant="outline" className="border-primary/30 hover:border-primary px-8 py-3 text-lg">
             Watch Demo
           </Button>

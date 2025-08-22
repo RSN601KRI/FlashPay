@@ -85,26 +85,6 @@ const Features = () => {
             </div>
           ))}
         </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="glass-card p-8 rounded-2xl max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4 text-gradient">
-              Ready to Transform Your Payment Experience?
-            </h3>
-            <p className="text-foreground/80 mb-6">
-              Join thousands of gig workers already earning with FlashPay's AI-powered platform
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover-glow font-medium hover:opacity-90 transition-all duration-300">
-                Start Integration
-              </button>
-              <button className="px-8 py-3 border border-primary/30 rounded-lg hover:border-primary transition-colors">
-                View Documentation
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
