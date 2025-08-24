@@ -1,177 +1,226 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Eye, EyeOff, Wallet, ArrowLeft, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
-import flashpayLogo from "@/assets/flashpay-logo.png";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
+import { useWallet } from "@/hooks/useWallet";
 
 const Auth = () => {
+  const navigate = useNavigate();
+  const { user, signIn, signUp } = useAuth();
+  const { connectYellowWallet } = useWallet();
+  
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isWalletLoading, setIsWalletLoading] = useState(false);
+  
+  // Login form state
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  
+  // Register form state
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
 
-  const connectYellowWallet = async () => {
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginEmail || !loginPassword) return;
+
     setIsLoading(true);
-    try {
-      // Yellow SDK Nitro wallet integration will be implemented once Supabase is connected
-      console.log("Connecting to Yellow Nitro wallet...");
-      // This would integrate with Yellow SDK for gasless wallet connection
-      setTimeout(() => {
-        setIsLoading(false);
-        // Placeholder for successful connection
-        alert("Yellow Nitro wallet connection will be available once backend is set up!");
-      }, 2000);
-    } catch (error) {
-      console.error("Failed to connect wallet:", error);
-      setIsLoading(false);
+    const { error } = await signIn(loginEmail, loginPassword);
+    setIsLoading(false);
+
+    if (!error) {
+      navigate('/');
+    }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!registerEmail || !registerPassword) return;
+
+    setIsLoading(true);
+    const { error } = await signUp(registerEmail, registerPassword, registerName);
+    setIsLoading(false);
+
+    if (!error) {
+      // Clear form
+      setRegisterName("");
+      setRegisterEmail("");
+      setRegisterPassword("");
+    }
+  };
+
+  const handleYellowWalletConnect = async () => {
+    setIsWalletLoading(true);
+    const { error } = await connectYellowWallet();
+    setIsWalletLoading(false);
+
+    if (!error) {
+      navigate('/');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md">
-        {/* Back to home */}
-        <Link 
-          to="/" 
-          className="inline-flex items-center text-foreground/70 hover:text-primary mb-8 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-primary/5 flex flex-col">
+      <div className="flex items-center gap-4 p-6">
+        <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft className="h-5 w-5" />
           Back to Home
         </Link>
-
-        {/* Logo */}
-        <div className="flex items-center justify-center space-x-3 mb-8">
-          <img 
-            src={flashpayLogo} 
-            alt="FlashPay" 
-            className="h-10 w-10 animate-pulse-glow"
-          />
-          <span className="text-2xl font-bold text-gradient">FlashPay</span>
-        </div>
-
-        <Card className="glass-card border-border/20">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-            <CardDescription>
-              Sign in to your FlashPay account or create a new one
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login">Sign In</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="login" className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="glass"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      className="glass pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-foreground/60"
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
-                <Button className="w-full" variant="hero" size="lg">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Sign In
-                </Button>
-              </TabsContent>
-
-              <TabsContent value="register" className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="Enter your full name"
-                    className="glass"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email-register">Email</Label>
-                  <Input
-                    id="email-register"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="glass"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password-register">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="password-register"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Create a password"
-                      className="glass pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-foreground/60"
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
-                <Button className="w-full" variant="hero" size="lg">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Create Account
-                </Button>
-              </TabsContent>
-            </Tabs>
-
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-border/20" />
+      </div>
+      
+      <div className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-glow rounded-lg flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-sm">F</span>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-foreground/60">
-                  Or continue with
-                </span>
-              </div>
+              <span className="text-xl font-bold">FlashPay</span>
             </div>
+            <h1 className="text-2xl font-bold">Welcome to FlashPay</h1>
+            <p className="text-muted-foreground">Sign in to your account or create a new one</p>
+          </div>
 
-            {/* Yellow Wallet Connect */}
-            <Button
-              onClick={connectYellowWallet}
-              disabled={isLoading}
-              variant="outline"
-              className="w-full glass hover:border-primary/50"
-              size="lg"
-            >
-              <Wallet className="h-4 w-4 mr-2" />
-              {isLoading ? "Connecting..." : "Connect Yellow Nitro Wallet"}
-            </Button>
+          <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+            <CardContent className="p-6">
+              <Tabs defaultValue="login" className="space-y-6">
+                <TabsList className="grid grid-cols-2 w-full">
+                  <TabsTrigger value="login">Sign In</TabsTrigger>
+                  <TabsTrigger value="register">Sign Up</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="login" className="space-y-4">
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="login-email">Email</Label>
+                      <Input 
+                        id="login-email" 
+                        type="email" 
+                        placeholder="Enter your email"
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="login-password">Password</Label>
+                      <div className="relative">
+                        <Input 
+                          id="login-password" 
+                          type={showPassword ? "text" : "password"} 
+                          placeholder="Enter your password"
+                          value={loginPassword}
+                          onChange={(e) => setLoginPassword(e.target.value)}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
+                    </div>
 
-            <p className="text-xs text-foreground/60 text-center mt-4">
-              By continuing, you agree to our Terms of Service and Privacy Policy
-            </p>
-          </CardContent>
-        </Card>
+                    <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
+                      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Sign In
+                    </Button>
+                  </form>
+                </TabsContent>
+                
+                <TabsContent value="register" className="space-y-4">
+                  <form onSubmit={handleRegister} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="register-name">Display Name</Label>
+                      <Input 
+                        id="register-name" 
+                        type="text" 
+                        placeholder="Enter your display name"
+                        value={registerName}
+                        onChange={(e) => setRegisterName(e.target.value)}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="register-email">Email</Label>
+                      <Input 
+                        id="register-email" 
+                        type="email" 
+                        placeholder="Enter your email"
+                        value={registerEmail}
+                        onChange={(e) => setRegisterEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="register-password">Password</Label>
+                      <div className="relative">
+                        <Input 
+                          id="register-password" 
+                          type={showPassword ? "text" : "password"} 
+                          placeholder="Create a password"
+                          value={registerPassword}
+                          onChange={(e) => setRegisterPassword(e.target.value)}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
+                      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Create Account
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
+
+              <div className="mt-6 pt-6 border-t border-border/50">
+                <div className="text-center text-sm text-muted-foreground mb-4">
+                  Or continue with
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleYellowWalletConnect}
+                  disabled={isWalletLoading}
+                >
+                  {isWalletLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Connect Yellow Nitro Wallet
+                </Button>
+              </div>
+
+              <div className="mt-4 text-center text-xs text-muted-foreground">
+                By continuing, you agree to our Terms of Service and Privacy Policy
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

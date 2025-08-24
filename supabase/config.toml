@@ -1,1 +1,10 @@
 project_id = "umklnmktfazfqmtzhitv"
+
+[functions.yellow-wallet-connect]
+verify_jwt = false
+
+[functions.wallet-refresh-session]
+verify_jwt = true
+
+[functions.wallet-operations]
+verify_jwt = true
