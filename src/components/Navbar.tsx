@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Zap, Wallet } from "lucide-react";
+import { Menu, X, Zap, Wallet, LogOut, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import flashpayLogo from "@/assets/flashpay-logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/20">
@@ -39,16 +41,35 @@ const Navbar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="text-foreground hover:text-primary">
-              <Wallet className="h-4 w-4 mr-2" />
-              Connect Wallet
-            </Button>
-            <Link to="/auth">
-              <Button variant="hero" className="hover-glow">
-                <Zap className="h-4 w-4 mr-2" />
-                Register
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                <Link to="/dashboard">
+                  <Button variant="ghost" className="text-foreground hover:text-primary">
+                    <Wallet className="h-4 w-4 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button variant="ghost" onClick={signOut} className="text-foreground hover:text-destructive">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost" className="text-foreground hover:text-primary">
+                    <User className="h-4 w-4 mr-2" />
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="hero" className="hover-glow">
+                    <Zap className="h-4 w-4 mr-2" />
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -77,16 +98,35 @@ const Navbar = () => {
                 Integrations
               </a>
               <div className="flex flex-col space-y-2 pt-4 border-t border-border/20">
-                <Button variant="ghost" className="justify-start">
-                  <Wallet className="h-4 w-4 mr-2" />
-                  Connect Wallet
-                </Button>
-                <Link to="/auth">
-                  <Button variant="hero" className="hover-glow justify-start w-full">
-                    <Zap className="h-4 w-4 mr-2" />
-                    Register
-                  </Button>
-                </Link>
+                {user ? (
+                  <>
+                    <Link to="/dashboard">
+                      <Button variant="ghost" className="justify-start w-full">
+                        <Wallet className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button variant="ghost" onClick={signOut} className="justify-start w-full text-destructive hover:text-destructive">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/auth">
+                      <Button variant="ghost" className="justify-start w-full">
+                        <User className="h-4 w-4 mr-2" />
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link to="/auth">
+                      <Button variant="hero" className="hover-glow justify-start w-full">
+                        <Zap className="h-4 w-4 mr-2" />
+                        Register
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
