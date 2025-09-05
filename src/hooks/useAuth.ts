@@ -71,7 +71,7 @@ export const useAuth = () => {
     try {
       const redirectUrl = `${window.location.origin}/`;
       
-      const { error } = await supabase.auth.signUp({
+      const { error, data } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -81,6 +81,16 @@ export const useAuth = () => {
           }
         }
       });
+
+      // For development: show success even if confirmation required
+      if (!error && data.user && !data.user.email_confirmed_at) {
+        toast({
+          title: "Account created!",
+          description: "Please check your email to confirm your account, or contact admin to disable email confirmation for testing.",
+          variant: "default",
+        });
+        return { error: null };
+      }
 
       if (error) {
         if (error.message.includes('already registered')) {
